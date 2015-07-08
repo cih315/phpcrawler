@@ -15,7 +15,7 @@ function load_server($name){
 function load($file, $ext = '.php'){
 	$file = APP_PATH . '/' . str_replace('.', '/', $file) . $ext;		
 	if(file_exists($file)){
-		include($file);	
+		include_once($file);	
 	}else{
 		exit($file . 'not found');
 	}

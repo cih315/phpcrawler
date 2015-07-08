@@ -8,7 +8,7 @@ class FileStorage extends Storage{
 			return false;
 		}
 		$store = load_config('store');
-		preg_match('/http:\/\/[^\/]+\//i', $url, $match);
+		preg_match('/http:\/\/[^\/]+[\/]?/i', $url, $match);
 		if(!$match){
 			return false;	
 		}
