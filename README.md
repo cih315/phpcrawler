@@ -18,7 +18,11 @@ PHP多进程/多线程爬虫
 	
 	3、配置config/site.php 
 	
-	4、php start_crawl.php  php start_parse.php
+	4、php start_crawl.php  
+	
+	5、php start_parse.php
 
-目前只是基本功能实现，基本都不支持自定义功能。
+
+
+目前只是基本功能实现，基本都不支持自定义功能。只支持在CLI下运行
 
