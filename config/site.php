@@ -1,7 +1,7 @@
 <?php 
 global $sites;
+
 $sites = array(
-    'http://www.baidu.com',
     'http://www.smartlei.com',
 );
 return $config = array(
@@ -9,7 +9,7 @@ return $config = array(
         'crawler' => 'snoopy',
         'parser'  => 'dom', 
     ), 
-    md5($sites[1]) => array(
+    md5(md5($sites[0])) => array(
         'crawler' => 'snoopy',
         'parser'  => 'dom', 
     ), 

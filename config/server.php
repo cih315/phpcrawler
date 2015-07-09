@@ -6,8 +6,8 @@ $config['crawler'] = array(
 		'worker_num'      => 4,	
 		'task_worker_num' => 4,
 		'dispatch_mode' => 3,
-		'daemonize '    => 0,
-		'log_file'      => '',
+		'daemonize'    => 0,
+		'log_file'      => '/tmp/crawer.log',
 	),
 );
 
@@ -19,8 +19,8 @@ $config['parser'] = array(
 		'worker_num'      => 4,	
 		'task_worker_num' => 4,
 		'dispatch_mode' => 3,
-		'daemonize '    => 0,
-		'log_file'      => '',
+		'daemonize'    => 0,
+		'log_file'      => '/tmp/parser.log',
 	),
 );
 

@@ -5,7 +5,7 @@ abstract class Parse{
 
 	public static function init(){
 		$parser = static::getParser();
-		load('crawl.parser.' . $parser . 'parser');			
+		load('parse.parser.' . $parser . 'parser');			
 		$class   = ucfirst($parser)  . 'parser';
 		self::$_parser = new $class;
 	}	
@@ -30,7 +30,7 @@ abstract class Parse{
 	}
 	
 	public static function callback($data, $ext = array()){
-		static::callbackFetch($data, $ext);
+		static::callbackParse($data, $ext);
 	}
 	abstract static function setParser($parser = '');
 	abstract static function getParser();

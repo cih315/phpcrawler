@@ -9,6 +9,4 @@ abstract class Crawler{
 
 	abstract public function fetch($url, $options = array(), $ext = array());
 
-		
-
 }

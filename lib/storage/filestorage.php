@@ -1,23 +1,26 @@
 <?php 
 load('lib.storage.storage');
-load('common.function');
 class FileStorage extends Storage{
 
 	public function save($url, $data, $level = 1){
 		if(!$url || !$data){
 			return false;
 		}
-		$store = load_config('store');
-		preg_match('/http:\/\/[^\/]+[\/]?/i', $url, $match);
+		preg_match('/http:\/\/([^\/]+)[\/]?/i', $url, $match);
 		if(!$match){
 			return false;	
 		}
+		$store = load_config('store');
 		$sub   = intval($level) <= 1 ? 'v1' : 'v' . intval($level);
-		$path  = $store['save_path'] . md5($match[0]) . '/' . $sub . '/';	
-		$file  = md5($url); 
+		$path  = $store['save_path'] . trim($match[1], '/') . '/' . $sub . '/';	
+		$file  = $path . md5($url); 
 		$content = is_object($data) ? $data->results : $data;
 		check_path($path, 0777);
-		@file_put_contents($path . $file, serialize($content));
+		@file_put_contents($file, serialize($content));
+
+		//务必调用否则不能触发 解析程序
+		echo 'push -------parse' . "\n";
+		pushToParse($url, $file);
 	}
 
 }

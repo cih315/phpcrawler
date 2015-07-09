@@ -3,6 +3,7 @@ load('crawl.crawl');
 class snoopyCrawl extends crawl{
 
 	protected static $_crawlerName = null;
+
 	public static function setCrawler($crawlerName = 'snoopy'){
 		self::$_crawlerName = $crawlerName;	
 	}
