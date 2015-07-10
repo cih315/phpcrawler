@@ -1,5 +1,6 @@
 <?php 
-load('lib.storage.storage');
+Loader::load('lib.storage.storage');
+
 class FileStorage extends Storage{
 
 	public function save($url, $data, $level = 1){
@@ -10,7 +11,7 @@ class FileStorage extends Storage{
 		if(!$match){
 			return false;	
 		}
-		$store = load_config('store');
+		$store = Loader::load_config('store');
 		$sub   = intval($level) <= 1 ? 'v1' : 'v' . intval($level);
 		$path  = $store['save_path'] . trim($match[1], '/') . '/' . $sub . '/';	
 		$file  = $path . md5($url); 

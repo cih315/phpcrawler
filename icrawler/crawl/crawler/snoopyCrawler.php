@@ -1,8 +1,8 @@
 <?php 
 
-load('crawl.crawler.crawler');
-load('lib.crawler.snoopy');
-load('lib.storage.filestorage');
+Loader::load('crawl.crawler.crawler');
+Loader::load('lib.crawler.snoopy');
+Loader::load('lib.storage.filestorage');
 class SnoopyCrawler extends Crawler{
 
 	private $engine = null;

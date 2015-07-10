@@ -1,7 +1,7 @@
 <?php 
-load('parse.parser.parser');
-load('lib.parser.dom');
-load('lib.storage.filestorage');
+Loader::load('parse.parser.parser');
+Loader::load('lib.parser.dom');
+Loader::load('lib.storage.filestorage');
 
 class domParser extends Parser{
 
@@ -14,12 +14,10 @@ class domParser extends Parser{
 
 	public function run($data, $ext = array()){
 		$content = file_get_contents($data[0]);
-		echo 'end------';
 		$dom = $this->engine->init($content);	
 		$pattern = '//*[@id="c_left"]/div[2]/div[2]/h3/a';
 		$res = $dom->find($pattern);
 		if($res){
-			echo 'push----crawl' . "\n";
 			pushToCrawl('http://www.smartlei.com/article/17');
 		}
 		if($res){

@@ -5,7 +5,7 @@ abstract class Crawl{
 
 	public static function init(){
 		$crawler = static::getCrawler();
-		load('crawl.crawler.' . $crawler . 'Crawler');			
+		Loader::load('crawl.crawler.' . $crawler . 'Crawler');			
 		$class   = ucfirst($crawler)  . 'Crawler';
 		self::$_crawler = new $class;
 	}	
@@ -16,7 +16,7 @@ abstract class Crawl{
 	} 
 
 	public static function asyncFetch($cmd = 'fetch', $data, $ext = array()){
-		$config = load_config('server');
+		$config = Loader::load_config('server');
 		$client = new swoole_client(SWOOLE_SOCK_TCP);
 		$client->connect($config['crawler']['host'], $config['crawler']['port']);
 		$send = array(

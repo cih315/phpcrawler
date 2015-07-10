@@ -1,10 +1,9 @@
 <?php 
 global $start;
 $start = true;
-define('APP_PATH', __DIR__);
-include APP_PATH . '/common/constants.php';
-include APP_PATH . '/common/loader.php';
-load_helper('dom');
-load_helper('dir');
-load('common.monitor');
-load('server.crawler_server');
+include 'constants.php';
+include CORE_PATH. 'common/loader.php';
+Loader::load('helper.dom');
+Loader::load('helper.dir');
+Loader::load('common.monitor');
+Loader::load('server.crawler_server');

@@ -1,5 +1,5 @@
 <?php 
-load('crawl.crawl');
+Loader::load('crawl.crawl');
 class snoopyCrawl extends crawl{
 
 	protected static $_crawlerName = null;

@@ -1,5 +1,5 @@
 <?php 
-load('parse.parse');
+Loader::load('parse.parse');
 class domParse extends Parse{
 	protected static $_parserName = null;
 

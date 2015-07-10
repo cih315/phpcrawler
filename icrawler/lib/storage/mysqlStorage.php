@@ -1,5 +1,5 @@
 <?php 
-load('lib.storage.storage');
+Loader::load('lib.storage.storage');
 class MysqlStorage extends Storage{
 
 

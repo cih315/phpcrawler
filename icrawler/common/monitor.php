@@ -3,9 +3,10 @@
  * 监控或者调度程序
  **/ 
 
-global $crawler_monitor, $parser_monitor, $redis, $crawler_server, $parser_server, $crawler_topic, $parser_topic, $sites, $start;
+global $crawler_monitor, $parser_monitor, $redis, $crawler_server, $parser_server, 
+	   $crawler_topic, $parser_topic, $sites, $start;
 
-load_config('site');
+Loader::load_config('site');
 if(!$sites){
 	return false;
 }
@@ -42,7 +43,7 @@ $redis->set($parser_topic, serialize($all_2), 7*24*3600);
 
 function init_redis(){
 	global $redis;
-	$config = load_config('redis');
+	$config = Loader::load_config('redis');
 	$redis  = new Redis();
 	$redis->connect($config['host'], $config['port']);
 }
@@ -64,7 +65,7 @@ function crawler_monitor(swoole_process $worker){
 		foreach($keys as $key){
 			if($url = $redis->rpop($key)){
 				echo 'crawler-----' . $url . "\n";
-				$config = load_config('site');
+				$config = Loader::load_config('site');
 				$data = array(
 					'class' => $config[$key]['crawler'] . 'Crawl',
 					'method' => 'callback',
@@ -91,7 +92,7 @@ function parser_monitor(swoole_process $worker){
 		foreach($keys as $key){
 			if($path = $redis->rpop($key)){
 				echo 'parser-----------' . $path. "\n";
-				$config = load_config('site');
+				$config = Loader::load_config('site');
 				$data = array(
 					'class' => $config[$key]['parser'] . 'Parse',
 					'method' => 'callback',

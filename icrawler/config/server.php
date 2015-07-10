@@ -23,4 +23,5 @@ $config['parser'] = array(
 		'log_file'      => '/tmp/parser.log',
 	),
 );
+return $config;
 

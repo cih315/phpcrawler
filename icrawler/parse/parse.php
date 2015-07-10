@@ -5,7 +5,7 @@ abstract class Parse{
 
 	public static function init(){
 		$parser = static::getParser();
-		load('parse.parser.' . $parser . 'parser');			
+		Loader::load('parse.parser.' . $parser . 'parser');			
 		$class   = ucfirst($parser)  . 'parser';
 		self::$_parser = new $class;
 	}	
@@ -16,7 +16,7 @@ abstract class Parse{
 	} 
 
 	public static function asyncParse($cmd = 'fetch', $data, $ext = array()){
-		$config = load_config('server');
+		$config = Loader::load_config('server');
 		$client = new swoole_client(SWOOLE_SOCK_TCP);
 		$client->connect($config['parser']['host'], $config['parser']['port']);
 		$send = array(
