@@ -2,14 +2,14 @@
 global $sites;
 
 $sites = array(
-    'http://www.smartlei.com',
+    'http://www.qqgexingqianming.com',
 );
 return $config = array(
-    md5($sites[0]) => array(
+    md5('http://www.qqgexingqianming.com') => array(
         'crawler' => 'snoopy',
         'parser'  => 'dom', 
     ), 
-    md5(md5($sites[0])) => array(
+    md5(md5('http://www.qqgexingqianming.com')) => array(
         'crawler' => 'snoopy',
         'parser'  => 'dom', 
     ), 

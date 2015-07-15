@@ -58,10 +58,10 @@ function crawler_monitor(swoole_process $worker){
 	//无线循环，如果在相应的队列拿到数据就执行抓取工作
 	while(true){
 		$keys = $redis->get($crawler_topic);
-		$keys = unserialize($keys);
 		if(!$keys){
-			break;
+			continue;
 		}
+		$keys = unserialize($keys);
 		foreach($keys as $key){
 			if($url = $redis->rpop($key)){
 				echo 'crawler-----' . $url . "\n";
@@ -88,6 +88,9 @@ function parser_monitor(swoole_process $worker){
 	//无线循环，如果在相应的队列拿到数据就执行分析工作
 	while(true){
 		$keys = $redis->get($parser_topic);
+		if(!$keys){
+			continue;
+		}
 		$keys = unserialize($keys);
 		foreach($keys as $key){
 			if($path = $redis->rpop($key)){

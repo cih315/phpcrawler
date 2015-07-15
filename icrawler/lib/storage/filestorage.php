@@ -7,13 +7,14 @@ class FileStorage extends Storage{
 		if(!$url || !$data){
 			return false;
 		}
-		preg_match('/http:\/\/([^\/]+)[\/]?/i', $url, $match);
+		preg_match('/http:\/\/([^\/]+)[\/]?([a-zA-Z0-9\/]*)/i', $url, $match);
 		if(!$match){
 			return false;	
 		}
 		$store = Loader::load_config('store');
-		$sub   = intval($level) <= 1 ? 'v1' : 'v' . intval($level);
-		$path  = $store['save_path'] . trim($match[1], '/') . '/' . $sub . '/';	
+		$sub   = isset($match[2]) && $match[2] ? $match[2] : '';
+		$sub   = $sub ? trim($sub, '/') . '/' : '';
+		$path  = $store['save_path'] . trim($match[1], '/') . '/' . $sub;	
 		$file  = $path . md5($url); 
 		$content = is_object($data) ? $data->results : $data;
 		check_path($path, 0777);
