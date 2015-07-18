@@ -117,14 +117,20 @@ for($i = 0; $i < 2; $i++){
 /**
  * 把生成的文件信息push到parser中相应的队列，触发解析程序 
  *
- * @param $key 抓取到的url 
+ * @param $url  抓取到的url 
  * @param $path 文件存储的位置 
  **/
-function pushToParse($key, $path){
+function pushToParse($url, $path){
 	global $redis; 
-	preg_match('/http:\/\/[^\/]+[\/]?/i', $key, $match);
+	preg_match('/http:\/\/[^\/]+[\/]?/i', $url, $match);
 	$key = trim($match[0], '/'); 
 	$key = md5(md5($key));
+
+    $key_exist = 'hsetparse';
+    if($redis->hget($key_exist, md5($url))){
+        return; 
+    }
+    $redis->hset($key_exist, md5($url), 1);
 	$redis->lpush($key, $path);
 }
 
@@ -138,5 +144,10 @@ function pushToCrawl($url){
 	preg_match('/http:\/\/[^\/]+[\/]?/i', $url, $match);
 	$key = trim($match[0], '/');
 	$key = md5($key);
+    $key_exist = 'hsetcrawl';
+    if($redis->hget($key_exist, md5($url))){
+        return; 
+    }
 	$redis->lpush($key, $url);
+    $redis->hset($key_exist, md5($url), 1);
 }
