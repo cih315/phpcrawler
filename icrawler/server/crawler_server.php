@@ -4,13 +4,19 @@
 
 Loader::load('crawl.snoopyCrawl');
 
+//初始化一些全局变量 
 global $redis, $crawler_server, $crawler_monitor;
-$config = Loader::load_config('server');
+
+$config         = Loader::load_config('server');
+
 $crawler_server = new swoole_server($config['crawler']['host'], $config['crawler']['port']);
+
 if(!$crawler_server){
 	exit('crawler_server connect failed');	
 }
 $crawler_server->set($config['crawler']['options']);
+
+//绑定一些事件及相应的回调函数
 
 $crawler_server->on('start', function(swoole_server $crawler_server){
 	echo 'crawler_server start_time--' . date('Y-m-d H:i:s') . "\n";
@@ -68,15 +74,15 @@ $crawler_server->on('receive', function(swoole_server $crawler_server, $fd, $fro
 	echo 'client fd:' . $fd . "\n";
 	echo 'client--from_id:' . $from_id . "\n";
 	$data = json_decode($data, true);
-	$cmd = $data['cmd'];
+	$cmd  = $data['cmd'];
 	unset($data['cmd']);
 	switch($cmd){
-		case 'fetch':
-			$crawler_server->task($data, 0);
-			$crawler_server->send($fd, "OK\n");
-			break;
-		default:
-			echo "error cmd \n";
+	case 'fetch':
+		$crawler_server->task($data, 0);
+		$crawler_server->send($fd, "OK\n");
+		break;
+	default:
+		echo "error cmd \n";
 	}
 });
 
@@ -98,5 +104,9 @@ $crawler_server->on('task', function(swoole_server $crawler_server, $task_id, $f
 	$crawler_server->finish("OK\n");	
 });
 
+//添加监控进程 
+
 $crawler_server->addProcess($crawler_monitor);
+
+//server开始
 $crawler_server->start();

@@ -4,13 +4,21 @@
 
 Loader::load('parse.domParse');
 
+//声明全局变量
 global $redis, $parser_server, $parser_monitor;
-$config = Loader::load_config('server');
+
+
+$config        = Loader::load_config('server');
+
 $parser_server = new swoole_server($config['parser']['host'], $config['parser']['port']);
+
 if(!$parser_server){
 	exit('parser_server connect failed');	
 }
+
 $parser_server->set($config['parser']['options']);
+
+//绑定事件及相应的回调函数
 
 $parser_server->on('start', function(swoole_server $parser_server){
 	echo 'parser_server start_time--' . date('Y-m-d H:i:s') . "\n";
@@ -68,15 +76,15 @@ $parser_server->on('receive', function(swoole_server $parser_server, $fd, $from_
 	echo 'client fd:' . $fd . "\n";
 	echo 'client--from_id:' . $from_id . "\n";
 	$data = json_decode($data, true);
-	$cmd = $data['cmd'];
+	$cmd  = $data['cmd'];
 	unset($data['cmd']);
 	switch($cmd){
-		case 'fetch':
-			$parser_server->task($data, 0);
-			$parser_server->send($fd, "OK\n");
-			break;
-		default:
-			echo "error cmd \n";
+	case 'fetch':
+		$parser_server->task($data, 0);
+		$parser_server->send($fd, "OK\n");
+		break;
+	default:
+		echo "error cmd \n";
 	}
 });
 
@@ -98,5 +106,8 @@ $parser_server->on('task', function(swoole_server $parser_server, $task_id, $fro
 	$parser_server->finish("OK\n");	
 });
 
+//添加监控进程 
 $parser_server->addProcess($parser_monitor);
+
+//server启动
 $parser_server->start();
