@@ -1,5 +1,5 @@
 <?php 
-Loader::load('lib.storage.storage');
+Loader::load('lib.storage.Storage');
 
 class FileStorage extends Storage{
 

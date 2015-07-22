@@ -100,7 +100,9 @@ function parser_monitor(swoole_process $worker){
 					'data'   => array($path), 
 				);
 				$parser_server->task($data, 0);
-			}
+            }else{
+                var_dump($path);
+            }
 		}
 		sleep(5);
 	}

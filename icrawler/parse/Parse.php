@@ -4,7 +4,7 @@ class Parse{
 	protected static $_driver = null;
 
 	public static function init($driver){
-		Loader::load('parse.driver.' . strtolower($driver) . 'Driver');			
+		Loader::load('parse.driver.' . ucfirst(strtolower($driver)) . 'Driver');			
 		$class   = ucfirst($driver)  . 'Driver';
 		self::$_driver = new $class;
 	}	

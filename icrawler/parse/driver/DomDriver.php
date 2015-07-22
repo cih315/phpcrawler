@@ -1,14 +1,14 @@
 <?php 
-Loader::load('parse.driver.driver');
-Loader::load('lib.parser.dom');
-Loader::load('lib.storage.filestorage');
+Loader::load('parse.driver.Driver');
+Loader::load('lib.parser.Dom');
+Loader::load('lib.storage.FileStorage');
 
-class domDriver extends Driver{
+class DomDriver extends Driver{
 
 	public $engine = null;
 
 	public function __construct(){
-		parent::__construct(new fileStorage());
+		parent::__construct(new FileStorage());
 		$this->engine = new DOM();
 	}
 
@@ -20,9 +20,5 @@ class domDriver extends Driver{
 			$args = array($this, $data, $ext);
 			call_user_func_array(array($obj, $hooks['parse']['method']), $args);
 		}
-	}
-
-	public function find($data, $ext = array()){
-	
 	}
 }

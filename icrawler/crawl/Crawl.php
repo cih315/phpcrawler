@@ -23,8 +23,8 @@ class Crawl{
 	 **/ 
 
 	public static function init($driver){
-		Loader::load('crawl.driver.' . strtolower($driver) . 'Driver');			
-		$class   = ucfirst($driver)  . 'Driver';
+		Loader::load('crawl.driver.' . ucfirst(strtolower($driver)) . 'Driver');			
+		$class = ucfirst($driver)  . 'Driver';
 		self::$_driver = new $class;
 	}	
 

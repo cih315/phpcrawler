@@ -2,7 +2,7 @@
 
 //抓取server 
 
-Loader::load('parse.parse');
+Loader::load('parse.Parse');
 
 //声明全局变量
 global $redis, $parser_server, $parser_monitor;

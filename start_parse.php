@@ -1,7 +1,7 @@
 <?php 
 include 'constants.php';
-include CORE_PATH. 'common/loader.php';
-Loader::load('helper.dom');
-Loader::load('helper.dir');
-Loader::load('common.monitor');
-Loader::load('server.parser_server');
+include CORE_PATH. 'Loader.php';
+Loader::load('helper.Dom');
+Loader::load('helper.Dir');
+Loader::load('Monitor');
+Loader::load('server.ParserServer');

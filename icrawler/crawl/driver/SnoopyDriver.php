@@ -1,8 +1,8 @@
 <?php 
 
-Loader::load('crawl.driver.driver');
-Loader::load('lib.crawler.snoopy');
-Loader::load('lib.storage.filestorage');
+Loader::load('crawl.driver.Driver');
+Loader::load('lib.crawler.Snoopy');
+Loader::load('lib.storage.FileStorage');
 class SnoopyDriver extends Driver{
 
 	private $engine = null;

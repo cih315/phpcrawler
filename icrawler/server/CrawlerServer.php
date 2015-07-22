@@ -2,7 +2,7 @@
 
 //抓取server 
 
-Loader::load('crawl.crawl');
+Loader::load('crawl.Crawl');
 
 //初始化一些全局变量 
 global $redis, $crawler_server, $crawler_monitor;
