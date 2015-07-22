@@ -2,7 +2,7 @@
 
 //抓取server 
 
-Loader::load('parse.domParse');
+Loader::load('parse.parse');
 
 //声明全局变量
 global $redis, $parser_server, $parser_monitor;
@@ -92,16 +92,17 @@ $parser_server->on('task', function(swoole_server $parser_server, $task_id, $fro
 	echo 'task start time--' . date('Y-m-d H:i:s') . "\n";
 	echo 'tast_id :' . $task_id. "\n";
 	echo 'client--from_id:' . $from_id . "\n";
-	$class  = isset($data['class'])   ?  $data['class'] : '';
-	$method = isset($data['method'])  ?  $data['method'] : 'callback';
+	$driver = isset($data['driver'])  ?  $data['driver'] : '';
+	$method = isset($data['method'])  ?  $data['method'] : 'fetch';
 	$object = isset($data['object'])  ?  unserialize($data['object']) : '';
+	$class  = isset($data['class'])   ?  $data['class'] : 'Parse';
 	if((!$class && !$object) || !$method){
-		$parser_server->finish("error callback\n");	
+		$crawler_server->finish("error callback\n");	
 	}
 	if($object){
-		call_user_func_array(array($object, $method), array($data['data']));
+		call_user_func_array(array($object, $method), array($data['data'], array('driver' => $driver)));
 	}else{
-		call_user_func_array("{$class}::{$method}", array($data['data']));
+		call_user_func_array("{$class}::{$method}", array($data['data'], array('driver' => $driver)));
 	}
 	$parser_server->finish("OK\n");	
 });

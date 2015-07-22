@@ -1,38 +1,48 @@
 <?php 
-abstract class Crawl{
+/**
+ * 抓取类 
+ *
+ **/ 
 
-	protected static $_crawler = null;
+class Crawl{
 
-	public static function init(){
-		$crawler = static::getCrawler();
-		Loader::load('crawl.crawler.' . $crawler . 'Crawler');			
-		$class   = ucfirst($crawler)  . 'Crawler';
-		self::$_crawler = new $class;
+	/**
+	 * @protected static $_crawler
+	 *
+	 * 真正的抓取实例对象 
+	 **/ 
+
+	protected static $_driver = null;
+
+	/**
+	 * 初始化工作 
+	 *
+	 * @access public 
+	 * @param  string $driver 抓取类的名字 
+	 * @return void 
+	 **/ 
+
+	public static function init($driver){
+		Loader::load('crawl.driver.' . strtolower($driver) . 'Driver');			
+		$class   = ucfirst($driver)  . 'Driver';
+		self::$_driver = new $class;
 	}	
 
-	public static function fetch($data, $ext = array()){
-		self::init();
-		self::$_crawler->fetch($data, $ext);	
-	} 
 
-	public static function asyncFetch($cmd = 'fetch', $data, $ext = array()){
-		$config = Loader::load_config('server');
-		$client = new swoole_client(SWOOLE_SOCK_TCP);
-		$client->connect($config['crawler']['host'], $config['crawler']['port']);
-		$send = array(
-			'cmd'      => $cmd ? $cmd : 'fetch',
-			'class'    => isset($ext['class'])  ? $ext['class'] : get_class($this), 
-			'method'   => isset($ext['method']) ? $ext['method'] : 'callback',
-			'data'     => $data,
-		);
-		$client->send(json_encode($send));
-		var_dump($client->recv());
-	}
-	
-	public static function callback($data, $ext = array()){
-		static::callbackFetch($data, $ext);
-	}
-	abstract static function setCrawler($crawler = '');
-	abstract static function getCrawler();
-	abstract static function callbackFetch($data, $ext = array());
+	/**
+	 * 抓取数据
+	 * swoole_server->task 函数中调取  
+	 *
+	 * @access public  static 
+	 * @param  string  $url   要抓取的url 
+	 * @param  array   $ext   扩展数据 
+	 * @return void 
+	 **/ 
+
+	public static function fetch($url, $ext = array()){
+		//默认抓取为snoopy
+		$driver = isset($ext['driver']) && $ext['driver'] ? $ext['driver'] : 'snoopy';
+		self::init($driver);
+		self::$_driver->fetch($url, $ext);	
+	} 
 }

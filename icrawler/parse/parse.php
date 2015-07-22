@@ -1,38 +1,18 @@
 <?php 
-abstract class Parse{
+class Parse{
 
-	protected static $_parser = null;
+	protected static $_driver = null;
 
-	public static function init(){
-		$parser = static::getParser();
-		Loader::load('parse.parser.' . $parser . 'parser');			
-		$class   = ucfirst($parser)  . 'parser';
-		self::$_parser = new $class;
+	public static function init($driver){
+		Loader::load('parse.driver.' . strtolower($driver) . 'Driver');			
+		$class   = ucfirst($driver)  . 'Driver';
+		self::$_driver = new $class;
 	}	
 
-	public static function run($data, $ext = array()){
-		self::init();
-		self::$_parser->run($data, $ext);	
+	public static function fetch($path, $ext = array()){
+		$driver = isset($ext['driver']) && $ext['driver'] ? $ext['driver'] : 'dom';
+		self::init($driver);
+		self::$_driver->fetch($path, $ext);	
 	} 
 
-	public static function asyncParse($cmd = 'fetch', $data, $ext = array()){
-		$config = Loader::load_config('server');
-		$client = new swoole_client(SWOOLE_SOCK_TCP);
-		$client->connect($config['parser']['host'], $config['parser']['port']);
-		$send = array(
-			'cmd'      => $cmd ? $cmd : 'parse',
-			'class'    => isset($ext['class'])  ? $ext['class'] : get_class($this), 
-			'method'   => isset($ext['method']) ? $ext['method'] : 'callback',
-			'data'     => $data,
-		);
-		$client->send(json_encode($send));
-		var_dump($client->recv());
-	}
-	
-	public static function callback($data, $ext = array()){
-		static::callbackParse($data, $ext);
-	}
-	abstract static function setParser($parser = '');
-	abstract static function getParser();
-	abstract static function callbackParse($data, $ext = array());
 }

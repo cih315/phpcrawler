@@ -32,7 +32,8 @@ class FileStorage extends Storage{
 		@file_put_contents($file, serialize($content));
 
 		//务必调用否则不能触发 解析程序
-		echo 'push -------parse' . "\n";
+		
+		echo 'push -------parse---'  .$file . "\n";
 		pushToParse($url, $file);
 	}
 

@@ -67,9 +67,8 @@ function crawler_monitor(swoole_process $worker){
 				echo 'crawler-----' . $url . "\n";
 				$config = Loader::load_config('site');
 				$data = array(
-					'class' => $config[$key]['crawler'] . 'Crawl',
-					'method' => 'callback',
-					'data'   => array($url), 
+					'driver' => $config[$key]['crawler'],
+					'data'   => $url, 
 				);
 				$crawler_server->task($data, 0);
 			}
@@ -97,8 +96,7 @@ function parser_monitor(swoole_process $worker){
 				echo 'parser-----------' . $path. "\n";
 				$config = Loader::load_config('site');
 				$data = array(
-					'class' => $config[$key]['parser'] . 'Parse',
-					'method' => 'callback',
+					'driver' => $config[$key]['parser'],
 					'data'   => array($path), 
 				);
 				$parser_server->task($data, 0);

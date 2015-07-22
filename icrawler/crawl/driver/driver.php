@@ -1,5 +1,11 @@
 <?php 
-abstract class Crawler{
+
+/**
+ * 规范抓取类,抓取驱动 
+ *
+ **/ 
+
+abstract class Driver{
 
 	protected $storage = null;
 

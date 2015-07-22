@@ -1,5 +1,5 @@
 <?php 
-abstract class Parser{
+abstract class Driver{
 
 	protected $storage = null;
 
@@ -7,5 +7,5 @@ abstract class Parser{
 		$this->storage = $storage;
 	}
 
-	abstract function find($data, $ext = array());
+	abstract function fetch($data, $ext = array());
 }

@@ -1,9 +1,9 @@
 <?php 
-Loader::load('parse.parser.parser');
+Loader::load('parse.driver.driver');
 Loader::load('lib.parser.dom');
 Loader::load('lib.storage.filestorage');
 
-class domParser extends Parser{
+class domDriver extends Driver{
 
 	public $engine = null;
 
@@ -12,7 +12,7 @@ class domParser extends Parser{
 		$this->engine = new DOM();
 	}
 
-	public function run($data, $ext = array()){
+	public function fetch($data, $ext = array()){
 		$hooks = Loader::load_config('hooks');
 		if($hooks && $hooks['parse']){
 			Loader::load('parse.' . strtolower($hooks['parse']['class']));

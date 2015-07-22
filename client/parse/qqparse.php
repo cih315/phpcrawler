@@ -35,7 +35,7 @@ class QQParse{
 				if(isset($mat[1])){
 					$url = trim($base, '/') . '/' . trim($mat[1], '/');
 				}
-				//echo $url . "\n";
+				echo $url . "\n";
 				pushToCrawl($url);
 			}
 		}
@@ -72,7 +72,7 @@ class QQParse{
 				pushToCrawl($url);
 			}
 		}
-
+		return;
         if($content){
             foreach($content as $value){
                 $value = trim(strip_tags($value));
